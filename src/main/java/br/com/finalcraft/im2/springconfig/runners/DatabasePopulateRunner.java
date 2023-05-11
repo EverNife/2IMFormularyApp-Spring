@@ -1,10 +1,12 @@
 package br.com.finalcraft.im2.springconfig.runners;
 
 import br.com.finalcraft.im2.config.ConfigManager;
+import br.com.finalcraft.im2.config.IM2Settings;
 import br.com.finalcraft.im2.datamodel.data.Formulary;
 import br.com.finalcraft.im2.datamodel.managers.FormularyRepository;
 import br.com.finalcraft.im2.forms.camunda.CamundaCreateForm;
 import br.com.finalcraft.im2.forms.validation.CreateFormularyForm;
+import br.com.finalcraft.im2.forms.validation.CreateFormularyResponse;
 import br.com.finalcraft.im2.http.retrofit.RetrofitRepository;
 import br.com.finalcraft.im2.json.JsonUtil;
 import com.google.gson.JsonObject;
@@ -58,7 +60,7 @@ public class DatabasePopulateRunner implements ApplicationRunner {
             CamundaCreateForm camundaCreateForm = CamundaCreateForm.from(createFormularyForm);
             JsonUtil.getGson().toJson(camundaCreateForm, System.out);
 
-            Response<JsonObject> execute = RetrofitRepository.getCamundaAPI().createCamundaProcess(IM2Settings.COMUNDA_KEY, camundaCreateForm).execute();
+            Response<CreateFormularyResponse> execute = RetrofitRepository.getCamundaAPI().createCamundaProcess(IM2Settings.COMUNDA_KEY, camundaCreateForm).execute();
 
             System.out.println("Success: " + execute.isSuccessful());
             System.out.println("Code: " + execute.code());
